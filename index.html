@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="">
+  <meta name="viewport" content="width=, initial-scale=">
+  <title></title>
+  <style>
+.html{
+  background-color: black;
+}
+ #canvas{
+
+ background-color:black;
+}
+#end{
+  color: white;
+}
+#end1{
+  color:white;
+}
+  </style>
+</head>
+<body>
+    <div style="position: relative;">
+ <canvas id="canvas" width="600" height="1200" 
+   style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id="canvas2" width="600" height="1200" 
+   style="position: absolute; left: 0; top: 0; z- index: 1;"></canvas>
+ <canvas id = 'canvas3' height= 1200px width = 600px
+ style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id = 'canvas4' height = 1200px width = 600px
+style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+</div>
+<h1 id = 'end'>BEST SCORE</h1>
+<h2 id = 'end1'></h2>
+</body>
+<script>
+var canvas = document.getElementById('canvas')
+var ctx = canvas.getContext('2d')
+var centreX = 300; var centreY = 870-1*150-60 ;  
+var radius = 150 ;
+var score =0
+var y = 1185 ;
+var rotateAngle = 90* Math.PI / 180;  
+var startAngle = 0 * Math.PI / 180; 
+ var endAngle = 90 * Math.PI / 180;  
+ var p =[870-1*150-60,870-2*150-60,870-3*150-60,870-4*150-60]
+ var uppressed = false; 
+ var colours = ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)','rgba(188, 255, 43, 1)']
+ var audioelement = new Audio('Color_Switch_-_Game_Theme_Music_(soundtrack)_HQ(256k).mp3');
+ audioelement.play();
+ var audioelement2 = new Audio('Gun+357+Magnum.mp3');
+
+ //creating a wheel
+        function drawWheel() {  
+            var canvas = document.getElementById("canvas");  
+            if (canvas.getContext) {  
+                var ctx = canvas.getContext("2d"); 
+                for (i = 0; i < 4; i++) { 
+                    ctx.strokeStyle = colours[i];
+                    
+                    ctx.lineWidth = 15 
+                    ctx.translate(centreX,centreY);  
+                    ctx.rotate(rotateAngle);  
+                    ctx.translate(-centreX, -centreY);
+                      
+                    ctx.beginPath();  
+                   
+                    ctx.arc(centreX,centreY, radius, startAngle, endAngle, false);  
+                    ctx.closePath();  
+                    ctx.stroke();  
+                }  
+                
+        }  }
+var rotateAngle2 = 1* Math.PI / 180;
+ 
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height)
+rotateWheel();
+} 
+setInterval(draw,10)
+//contineously rotating the wheel
+function rotateWheel() {  
+            var ctx = canvas.getContext("2d");  
+                ctx.translate(centreX, centreY);  
+                ctx.rotate(rotateAngle2);  
+                ctx.translate(-centreX, -centreY);  
+                drawWheel();  
+               } 
+// creating a ball which moves 
+var canvas2 = document.getElementById('canvas2') 
+var ctx2 = canvas2.getContext('2d')      
+document.addEventListener('keydown' , keydownlistener , false )
+document.addEventListener('keyup' , keyuplistener , false)
+function keyuplistener(e){
+   
+   if( e.key == 'ArrowUp' ){
+    uppressed = false ;
+    
+   }
+}
+function keydownlistener(e){
+
+ if(e.key == 'ArrowUp' ){
+    uppressed = true ;
+    
+   }
+}
+function drawball(){
+  ctx2.beginPath();
+
+  ctx2.arc(300,y,15,0,Math.PI *2)
+  ctx2.fillStyle = 'rgb(255,0,0)' ;
+  //this.fillStyle = '#38E7FC' ;
+  ctx2. fill();
+  ctx2.closePath();
+}
+
+
+function drawscore(){
+  ctx2.font = '16px arial';
+  ctx2.fillStyle =' white ';
+  ctx2.fillText('score:'+score,8,20);
+}
+function drawnmove(){
+  
+ ctx2.clearRect(0,0,canvas.width,canvas.height);
+ drawball()
+ drawscore()
+
+  
+ 
+ if(uppressed){
+    y -= 3
+    function find(){
+      var ImageData = 
+					ctx.getImageData(300, y, 60, 60); 
+        red = ImageData.data[0]; 
+        green = ImageData.data[1];
+        blue = ImageData.data[2];
+        alpha = ImageData.data[3];
+        color ='rgba('+red+','+green +','+blue+')'
+	console.log(color);
+        if (color ==='rgba(255,0,0)'){
+          console.log('yes')
+          score++
+        }else if (color === 'rgba(0,0,0)'){
+          
+        }else {
+          audioelement2.play();
+          console.log('no')
+           
+          
+          //code oF local storage
+           if (typeof(Storage) !== "undefined") {
+  var array1 = localStorage.getItem("array1");
+  array1 = (array1) ? JSON.parse(array1) : [];
+  if (array1.length<=5){
+   document.getElementById("end1").innerHTML = localStorage.getItem("array1");
+   
+   array1.push(score);
+   localStorage.setItem("array1", JSON.stringify(array1));
+   var z = Math.max.apply(null,array1);
+   
+   document.getElementById("end1").innerHTML = z;
+  }else{
+   array1.sort(function(a,b){return b-a});
+   array1.splice(5);
+   document.getElementById("end1").innerHTML = localStorage.getItem("array1");
+   
+   localStorage.setItem("array1", JSON.stringify(array1));
+   var z = Math.max.apply(null,array1);
+   
+   document.getElementById("end1").innerHTML = z;
+   }
+} else {
+  document.getElementById("end1").innerHTML = "Sorry, your browser does not support Web Storage...";
+} 
+alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
+location.reload();
+
+        }
+			} 
+			find(); 
+      function find2(){
+      var ImageData2 = 
+					ctx3.getImageData(300, y, 60, 60); 
+        red1 = ImageData2.data[0]; 
+        green1 = ImageData2.data[1];
+        blue1 = ImageData2.data[2];
+        alpha1 = ImageData2.data[3];
+        color1 ='rgba('+red1+','+green1 +','+blue1+')'
+	console.log(color1);
+        if (color1 ==='rgba(255,0,0)'){
+          console.log('yes')
+          score++
+          
+        }else if (color1 === 'rgba(0,0,0)'){
+          
+        }else {
+          audioelement2.play();
+          console.log('no')
+           
+         
+          // code of local storage
+           if (typeof(Storage) !== "undefined") {
+  var array1 = localStorage.getItem("array1");
+  array1 = (array1) ? JSON.parse(array1) : [];
+  if (array1.length<=5){
+   document.getElementById("end1").innerHTML = localStorage.getItem("array1");
+   
+   array1.push(score);
+   localStorage.setItem("array1", JSON.stringify(array1));
+   var z = Math.max.apply(null,array1);
+   
+   document.getElementById("end1").innerHTML = z;
+  }else{
+   array1.sort(function(a,b){return b-a});
+   array1.splice(5);
+   document.getElementById("end1").innerHTML = localStorage.getItem("array1");
+   
+   localStorage.setItem("array1", JSON.stringify(array1));
+   var z = Math.max.apply(null,array1);
+   
+   document.getElementById("end1").innerHTML = z;
+   }
+} else {
+  document.getElementById("end1").innerHTML = "Sorry, your browser does not support Web Storage...";
+} 
+alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
+location.reload();
+
+        }
+			} 
+			find2(); 
+    function find3(){
+      var ImageData3 = 
+					ctx4.getImageData(300, y, 60, 60); 
+        red2 = ImageData3.data[0]; 
+        green2 = ImageData3.data[1];
+        blue2 = ImageData3.data[2];
+        alpha2 = ImageData3.data[3];
+        color2 ='rgba('+red2+','+green2 +','+blue2+')'
+	console.log(color2);
+        if (color2 ==='rgba(255,0,0)'){
+          console.log('yes')
+          score++
+          
+        }else if (color2 === 'rgba(0,0,0)'){
+          
+        }else {
+          audioelement2.play();
+          console.log('no')
+          
+          
+          // code of local storage
+           if (typeof(Storage) !== "undefined") {
+  var array1 = localStorage.getItem("array1");
+  array1 = (array1) ? JSON.parse(array1) : [];
+  if (array1.length<=5){
+   document.getElementById("end1").innerHTML = localStorage.getItem("array1");
+   
+   array1.push(score);
+   localStorage.setItem("array1", JSON.stringify(array1));
+   var z = Math.max.apply(null,array1);
+   
+   document.getElementById("end1").innerHTML = z; 
+  }else{
+   array1.sort(function(a,b){return b-a});
+   array1.splice(5);
+   document.getElementById("end1").innerHTML = localStorage.getItem("array1");
+   
+   localStorage.setItem("array1", JSON.stringify(array1));
+   var z = Math.max.apply(null,array1);
+   
+   document.getElementById("end1").innerHTML = z; 
+   }
+} else {
+  document.getElementById("end1").innerHTML = "Sorry, your browser does not support Web Storage...";
+}
+
+alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
+//document.removeEventListener('keydown' , keydownlistener , false )
+//document.removeEventListener('keyup' , keyuplistener , false )   
+location.reload(); 
+
+        }
+			} 
+			find3();
+ if (y<15) {
+   alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
+document.location.reload(); 
+
+ } 
+    
+   
+
+    }
+
+
+ requestAnimationFrame(drawnmove)}
+
+ drawnmove();
+var side = 200;
+var rotateAngle = 90* Math.PI / 180;  
+var canvas3 = document.getElementById('canvas3')
+var ctx3 = canvas3.getContext('2d') 
+// creating the obstacle
+function drawsquare() {  
+     ctx3.moveTo(300-side/2,570-2*150); 
+                for (i = 0; i < 4; i++) {  
+                    ctx3.strokeStyle = colours[i]; 
+                    ctx3.lineWidth = 15 
+                    ctx3.translate(300,300-side/2);  
+                    ctx3.rotate(rotateAngle);  
+                    ctx3.translate(-300,-300+side/2);
+                     
+                    ctx3.beginPath();
+                    ctx3.moveTo(300-side/2,570-2*150);   
+                    ctx3.lineTo(300+side/2,570-2*150);
+                    
+                    ctx3.closePath();  
+                    ctx3.stroke();  
+                  
+            }  
+        } 
+ //contineously rotating it
+var rotateAngle23 =  3/2 *Math.PI / 180;
+ function rotatesquare() {  
+   ctx3.translate(300,300-side/2);  
+   ctx3.rotate(rotateAngle23);
+   ctx3.translate(-300,-300+side/2);  
+  drawsquare();} 
+function drawnmovesquare(){
+ctx3.clearRect(0,0,canvas3.width,canvas3.height);
+rotatesquare(); 
+requestAnimationFrame(drawnmovesquare);} 
+drawnmovesquare()
+
+// traingular obstacle
+var side1 = 150;
+var rotateAngle12=120* Math.PI / 180;  
+var canvas4 = document.getElementById('canvas4')
+var ctx4 = canvas4.getContext('2d') 
+var colours1 = ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)']  
+//creating the obstacle
+function drawtraingle() {  
+            ctx4.moveTo(300-side1/2,1100); 
+                for (i = 0; i <3 ; i++) {  
+                    ctx4.strokeStyle = colours1[i]; 
+                    ctx4.lineWidth = 15 
+                    ctx4.translate(300,1100- Math.sqrt(3)*side1/4);  
+                    ctx4.rotate(rotateAngle12);  
+                    ctx4.translate(-300,-1100+Math.sqrt(3)*side1/4);
+                     
+                    ctx4.beginPath();
+                    ctx4.moveTo(300-side1/2,1100);   
+                    ctx4.lineTo(300+side1/2,1100);
+                    
+                    ctx4.closePath();  
+                    ctx4.stroke();  
+                  
+            }  
+        } 
+//contineously rotating it
+var rotateAngle231 =  1 *Math.PI / 180;
+ function rotatetraingle() {  
+     ctx4.translate(300,1100-Math.sqrt(3)*side1/4);  
+     ctx4.rotate(rotateAngle231);
+     ctx4.translate(-300,-1100+Math.sqrt(3)*side1/4);  
+     drawtraingle();} 
+function drawnmovetraingle(){
+ctx4.clearRect(0,0,canvas4.width,canvas4.height);
+rotatetraingle(); 
+requestAnimationFrame(drawnmovetraingle);} 
+drawnmovetraingle()
+
+
+
+
+
+
+
+ 
+					 
+       
+
+
+</script>
+
+</html>
