@@ -5,91 +5,238 @@
   <meta name="viewport" content="width=, initial-scale=">
   <title></title>
   <style>
-.html{
-  background-color: black;
-}
- #canvas{
-
+  #canvas{
  background-color:black;
 }
 #end{
-  color: white;
+  color:red;
+  text-align: center;
 }
 #end1{
-  color:white;
+  color:red;
+  text-align: center;
 }
   </style>
+
 </head>
 <body>
-    <div style="position: relative;">
- <canvas id="canvas" width="600" height="1200" 
-   style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
- <canvas id="canvas2" width="600" height="1200" 
-   style="position: absolute; left: 0; top: 0; z- index: 1;"></canvas>
- <canvas id = 'canvas3' height= 1200px width = 600px
- style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
- <canvas id = 'canvas4' height = 1200px width = 600px
+<canvas id = 'canvas' height = 700px width = 600px
 style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
-</div>
-<h1 id = 'end'>BEST SCORE</h1>
-<h2 id = 'end1'></h2>
+ <canvas id = 'canvas3' height= 700px width = 600px
+ style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id = 'canvas2' height= 700px width = 600px
+ style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id = 'canvas4' height = 700px width = 600px
+style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+<footer>
+<h1 id ='end'>BEST SCORE<h1>
+<h2 id = 'end1'><h2>
+</footer>
 </body>
 <script>
 var canvas = document.getElementById('canvas')
 var ctx = canvas.getContext('2d')
-var centreX = 300; var centreY = 870-1*150-60 ;  
-var radius = 150 ;
-var score =0
-var y = 1185 ;
-var rotateAngle = 90* Math.PI / 180;  
-var startAngle = 0 * Math.PI / 180; 
- var endAngle = 90 * Math.PI / 180;  
- var p =[870-1*150-60,870-2*150-60,870-3*150-60,870-4*150-60]
- var uppressed = false; 
- var colours = ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)','rgba(188, 255, 43, 1)']
- var audioelement = new Audio('Color_Switch_-_Game_Theme_Music_(soundtrack)_HQ(256k).mp3');
- audioelement.play();
- var audioelement2 = new Audio('Gun+357+Magnum.mp3');
-
- //creating a wheel
-        function drawWheel() {  
-            var canvas = document.getElementById("canvas");  
-            if (canvas.getContext) {  
-                var ctx = canvas.getContext("2d"); 
-                for (i = 0; i < 4; i++) { 
-                    ctx.strokeStyle = colours[i];
+var canvas3 = document.getElementById('canvas3') 
+var ctx3 = canvas3.getContext('2d')
+var canvas2 = document.getElementById('canvas2')
+var ctx2 =canvas2.getContext('2d')
+ResetGlobalVariables();
+var component 
+ var step 
+ var ax 
+ var component2 
+ var component3
+ var component4 
+var audioelement
+audioelement.autoplay = true; 
+ var component5
+ var component6
+audioelement.play();
+var step1
+var step2
+var audioelement2 
+ var canvas5 
+ var ctx5
+ var count
+ var count1
+ var count2
+ 
+// obstacles of first type
+function obstacle(y1){
+ this.centery = y1 ;
+  this.colours =  ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)','rgba(188, 255, 43, 1)']
+ 
+  
+    this.drawcircularobstacle = function (){
+    for (i = 0; i < 4; i++) { 
+                    ctx.strokeStyle = this.colours[i];
                     
                     ctx.lineWidth = 15 
-                    ctx.translate(centreX,centreY);  
-                    ctx.rotate(rotateAngle);  
-                    ctx.translate(-centreX, -centreY);
+                    ctx.translate(300,this.centery);  
+                    ctx.rotate(90* Math.PI / 180);  
+                    ctx.translate(-300, -this.centery);
                       
                     ctx.beginPath();  
                    
-                    ctx.arc(centreX,centreY, radius, startAngle, endAngle, false);  
-                    ctx.closePath();  
+                    ctx.arc(300,this.centery, 75,0 * Math.PI / 180, 90 * Math.PI / 180, false);  
+                      
                     ctx.stroke();  
-                }  
-                
-        }  }
-var rotateAngle2 = 1* Math.PI / 180;
- 
+                } 
+              
+                }
+ this.move= function (){
+    ctx.resetTransform()
+     ctx.clearRect(0,0,canvas.width,canvas.height);
+     ctx.translate(0, ax*step);
+     
+     ctx.translate(300, this.centery);  
+     ctx.rotate( step* Math.PI / 180); 
+      
+     ctx.translate(-300, -this.centery);
+     component.drawcircularobstacle();
+     
+     step = step +3/2
+    
+
+     if (step >  1778.5 + 850 * count){
+       
+     
+          
+      step = step - 1778.5 -850 *count
+      count = 1
+       component = component4
+       
+  }}}
+// functions to animate
 function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height)
-rotateWheel();
-} 
-setInterval(draw,10)
-//contineously rotating the wheel
-function rotateWheel() {  
-            var ctx = canvas.getContext("2d");  
-                ctx.translate(centreX, centreY);  
-                ctx.rotate(rotateAngle2);  
-                ctx.translate(-centreX, -centreY);  
-                drawWheel();  
-               } 
-// creating a ball which moves 
-var canvas2 = document.getElementById('canvas2') 
-var ctx2 = canvas2.getContext('2d')      
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ 
+ component.move();
+ //component4.move();
+ 
+ requestAnimationFrame(draw)}
+draw();
+
+//second type of obstacle
+function obstacle2 (side,sqry){
+  this.side = side;
+  this.colours =   ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)','rgba(188, 255, 43, 1)']
+ 
+  this.y = sqry
+  this.drawsquare = function(){
+    ctx3.moveTo(300-side/2,this.y); 
+    for (i = 0; i < 4; i++) {  
+    ctx3.strokeStyle =this.colours[i]; 
+    ctx3.lineWidth = 15 
+    ctx3.translate(300,this.y-side/2);  
+    ctx3.rotate(90* Math.PI / 180);  
+    ctx3.translate(-300,-this.y+side/2);
+                     
+    ctx3.beginPath();
+    ctx3.moveTo(300-side/2,this.y);   
+    ctx3.lineTo(300+side/2,this.y);
+                     
+    ctx3.closePath();  
+    ctx3.stroke();  
+                  
+            }}
+  this.squarerot = function (){
+   ctx3.translate(300,this.y-side/2);  
+   ctx3.rotate(1/2* Math.PI / 180);
+   ctx3.translate(-300,-this.y+side/2);
+   component2.drawsquare();            
+  } 
+  this.move2 = function (){
+    ctx3.resetTransform()
+     ctx3.clearRect(0,0,canvas3.width,canvas3.height);
+     ctx3.translate(0, ax*step1);
+     ctx3.translate(300,this.y-side/2);  
+     ctx3.rotate(step1* Math.PI / 180);
+     ctx3.translate(-300,-this.y+side/2);
+     component2.drawsquare();
+     step1 = step1 +3/2
+     
+      if (step1 >  2090 + 1000 * count1){
+       
+     
+          
+      step1 = step1 - 1078.5 -1000 *count1
+      count1 = 1
+       component2 = component5}
+    
+
+  } 
+}
+function squaremove(){
+ctx3.clearRect(0,0,canvas3.width,canvas3.height);
+
+component2.move2();
+requestAnimationFrame(squaremove);
+}
+squaremove()
+// third type of obstacle
+function obstacle3(side2,triy){
+  this.side = side2
+  this.colours = ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)']
+  this.y = triy
+  this.drawtraingle = function(){
+    ctx2.moveTo(300-side2/2,this.y); 
+                for (i = 0; i <3 ; i++) {  
+                    ctx2.strokeStyle = this.colours[i]; 
+                    ctx2.lineWidth = 15 
+                    ctx2.translate(300,this.y- Math.sqrt(3)*side2/4);  
+                    ctx2.rotate(120* Math.PI / 180);  
+                    ctx2.translate(-300,-this.y+Math.sqrt(3)*side2/4);
+                     
+                    ctx2.beginPath();
+                    ctx2.moveTo(300-side2/2,this.y);   
+                    ctx2.lineTo(300+side2/2,this.y);
+                    
+                    ctx2.closePath();  
+                    ctx2.stroke();  
+                  
+            }  
+
+  }
+  this.movetraingle = function(){
+    ctx2.resetTransform()
+     ctx2.clearRect(0,0,canvas2.width,canvas2.height);
+     ctx2.translate(0, ax*step2);
+     ctx2.translate(300,this.y-Math.sqrt(3)*side2/4);  
+     ctx2.rotate(step2*Math.PI / 180);
+     ctx2.translate(-300,-this.y+Math.sqrt(3)*side2/4);
+     component3.drawtraingle();
+     step2 = step2 +3/2
+     
+      if (step2 >  2820 + 1000 * count2){
+       
+     
+          
+      step2 = step2 - 2820 -1000 *count2
+      count2 = 1
+       component3 = component6}
+    
+
+  }}
+
+function animatetri(){
+  ctx2.clearRect(0,0,canvas2.width,canvas2.height);
+  component3.movetraingle();
+  requestAnimationFrame(animatetri);
+}
+animatetri()
+
+var canvas4 = document.getElementById('canvas4') 
+var ctx4 = canvas4.getContext('2d') 
+var y 
+var uppressed    
+var score  
+var radius 
+var gravity   
+var bounce 
+var xFriction 
+var vy 
+
 document.addEventListener('keydown' , keydownlistener , false )
 document.addEventListener('keyup' , keyuplistener , false)
 function keyuplistener(e){
@@ -107,34 +254,75 @@ function keydownlistener(e){
    }
 }
 function drawball(){
-  ctx2.beginPath();
+  ctx4.beginPath();
 
-  ctx2.arc(300,y,15,0,Math.PI *2)
-  ctx2.fillStyle = 'rgb(255,0,0)' ;
+  ctx4.arc(300,y,10,0,Math.PI *2)
+  ctx4.fillStyle = 'rgb(255,0,0)' ;
   //this.fillStyle = '#38E7FC' ;
-  ctx2. fill();
-  ctx2.closePath();
+  ctx4. fill();
+  ctx4.closePath();
 }
 
 
 function drawscore(){
-  ctx2.font = '16px arial';
-  ctx2.fillStyle =' white ';
-  ctx2.fillText('score:'+score,8,20);
+  ctx4.font = '16px arial';
+  ctx4.fillStyle =' white ';
+  ctx4.fillText('score:'+score,8,20);
 }
+
+
+function ballgravity(dt){
+  y += vy *dt;
+   //vy += gravity;
+  vy += 9.8 *dt
+  // Ball hits the floor
+        if (y + radius > canvas4.height){
+          
+            
+           y = canvas4.height - radius;
+            
+              vy *= -bounce;
+           
+              if(vy<0 && vy>-2.1)
+                         vy=0;
+        
+        if(vy * (-bounce)  <   4)
+            y = 0;
+      
+      if (y - radius< 0) {
+        y = 10;    
+      };
+      }
+/* y += vy;
+   vy += gravity;
+  if (y + radius > canvas4.height){
+      y = canvas4.height - radius;
+      vy *= -bounce;
+     if(vy<0 && vy>-2.1)
+     vy=0;
+            
+      }*/
+
+
+        
+        
+    }
+   
+    
 function drawnmove(){
   
- ctx2.clearRect(0,0,canvas.width,canvas.height);
+ ctx4.clearRect(0,0,canvas4.width,canvas4.height);
  drawball()
  drawscore()
-
+ //ballgravity(15);
   
  
  if(uppressed){
     y -= 3
+    //ballMovement();
     function find(){
       var ImageData = 
-					ctx.getImageData(300, y, 60, 60); 
+					ctx.getImageData(300, y, 5, 5); 
         red = ImageData.data[0]; 
         green = ImageData.data[1];
         blue = ImageData.data[2];
@@ -177,14 +365,15 @@ function drawnmove(){
   document.getElementById("end1").innerHTML = "Sorry, your browser does not support Web Storage...";
 } 
 alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
-location.reload();
+
+GameOver()
 
         }
 			} 
 			find(); 
       function find2(){
       var ImageData2 = 
-					ctx3.getImageData(300, y, 60, 60); 
+					ctx3.getImageData(300, y, 5, 5); 
         red1 = ImageData2.data[0]; 
         green1 = ImageData2.data[1];
         blue1 = ImageData2.data[2];
@@ -228,14 +417,15 @@ location.reload();
   document.getElementById("end1").innerHTML = "Sorry, your browser does not support Web Storage...";
 } 
 alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
-location.reload();
+
+GameOver()
 
         }
 			} 
 			find2(); 
     function find3(){
       var ImageData3 = 
-					ctx4.getImageData(300, y, 60, 60); 
+					ctx2.getImageData(300, y, 5, 5); 
         red2 = ImageData3.data[0]; 
         green2 = ImageData3.data[1];
         blue2 = ImageData3.data[2];
@@ -280,16 +470,15 @@ location.reload();
 }
 
 alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
-//document.removeEventListener('keydown' , keydownlistener , false )
-//document.removeEventListener('keyup' , keyuplistener , false )   
-location.reload(); 
+ GameOver() 
+ 
 
         }
 			} 
 			find3();
- if (y<15) {
+ if (y<10) {
    alert('gameover\n your score'+score+'\nbest score'+document.getElementById('end1').innerText)
-document.location.reload(); 
+   GameOver();
 
  } 
     
@@ -297,95 +486,47 @@ document.location.reload();
 
     }
 
-
- requestAnimationFrame(drawnmove)}
+requestAnimationFrame(drawnmove)}
 
  drawnmove();
-var side = 200;
-var rotateAngle = 90* Math.PI / 180;  
-var canvas3 = document.getElementById('canvas3')
-var ctx3 = canvas3.getContext('2d') 
-// creating the obstacle
-function drawsquare() {  
-     ctx3.moveTo(300-side/2,570-2*150); 
-                for (i = 0; i < 4; i++) {  
-                    ctx3.strokeStyle = colours[i]; 
-                    ctx3.lineWidth = 15 
-                    ctx3.translate(300,300-side/2);  
-                    ctx3.rotate(rotateAngle);  
-                    ctx3.translate(-300,-300+side/2);
-                     
-                    ctx3.beginPath();
-                    ctx3.moveTo(300-side/2,570-2*150);   
-                    ctx3.lineTo(300+side/2,570-2*150);
-                    
-                    ctx3.closePath();  
-                    ctx3.stroke();  
-                  
-            }  
-        } 
- //contineously rotating it
-var rotateAngle23 =  3/2 *Math.PI / 180;
- function rotatesquare() {  
-   ctx3.translate(300,300-side/2);  
-   ctx3.rotate(rotateAngle23);
-   ctx3.translate(-300,-300+side/2);  
-  drawsquare();} 
-function drawnmovesquare(){
-ctx3.clearRect(0,0,canvas3.width,canvas3.height);
-rotatesquare(); 
-requestAnimationFrame(drawnmovesquare);} 
-drawnmovesquare()
-
-// traingular obstacle
-var side1 = 150;
-var rotateAngle12=120* Math.PI / 180;  
-var canvas4 = document.getElementById('canvas4')
-var ctx4 = canvas4.getContext('2d') 
-var colours1 = ['rgba(56, 231, 252, 1)','rgb(255,0,0)','rgba(253, 0, 246, 1)']  
-//creating the obstacle
-function drawtraingle() {  
-            ctx4.moveTo(300-side1/2,1100); 
-                for (i = 0; i <3 ; i++) {  
-                    ctx4.strokeStyle = colours1[i]; 
-                    ctx4.lineWidth = 15 
-                    ctx4.translate(300,1100- Math.sqrt(3)*side1/4);  
-                    ctx4.rotate(rotateAngle12);  
-                    ctx4.translate(-300,-1100+Math.sqrt(3)*side1/4);
-                     
-                    ctx4.beginPath();
-                    ctx4.moveTo(300-side1/2,1100);   
-                    ctx4.lineTo(300+side1/2,1100);
-                    
-                    ctx4.closePath();  
-                    ctx4.stroke();  
-                  
-            }  
-        } 
-//contineously rotating it
-var rotateAngle231 =  1 *Math.PI / 180;
- function rotatetraingle() {  
-     ctx4.translate(300,1100-Math.sqrt(3)*side1/4);  
-     ctx4.rotate(rotateAngle231);
-     ctx4.translate(-300,-1100+Math.sqrt(3)*side1/4);  
-     drawtraingle();} 
-function drawnmovetraingle(){
-ctx4.clearRect(0,0,canvas4.width,canvas4.height);
-rotatetraingle(); 
-requestAnimationFrame(drawnmovetraingle);} 
-drawnmovetraingle()
+function GameOver(){
+    document.removeEventListener('keydown' , keydownlistener , false );
+    document.removeEventListener('keyup' , keyuplistener , false );
+    
+    ResetGlobalVariables();
+    //alert('refresh to restart the game')
+    document.addEventListener('keydown' , keydownlistener , false )
+    document.addEventListener('keyup' , keyuplistener , false)
+}
+function ResetGlobalVariables(){
+  y = 690
+ uppressed = false;   
+ score =0 
+ radius = 10
+ gravity = 0.05;  
+ bounce = 0.6; 
+ xFriction = 0.1;
+ vy = (Math.random() * -4) + -3; 
+ component = new obstacle(500)
+ step = 0
+ step1 =0
+ step2 =0
+ ax =0.25
+ component2 = new obstacle2(100,300)
+ component3 = new obstacle3(100,100)
+  audioelement = new Audio('Color_Switch_-_Game_Theme_Music_(soundtrack)_HQ(256k).mp3');
+component4 = new obstacle(100)
+ audioelement2 = new Audio('Gun+357+Magnum.mp3'); 
+ component5 = new obstacle2(100,200)
+ component6 = new obstacle3(100,250)
+ count =0
+ count1 =0
+ count2 =0
+}
 
 
 
-
-
-
-
- 
-					 
-       
 
 
 </script>
-
 </html>
